@@ -1,0 +1,14 @@
+BEGIN
+    FOR n TO 100
+    DO
+        IF n %* 15 = 0 THEN
+            print(("Fizz buzz", newline))
+        ELIF n %* 3 = 0 THEN
+            print(("Fizz", newline))
+        ELIF n %* 5 = 0 THEN
+            print(("Buzz", newline))
+        ELSE
+            print((whole(n, 0), newline))
+        FI
+    OD
+END
