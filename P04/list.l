@@ -1,8 +1,6 @@
 %{
     #include "list.tab.h"
     #include <cstdlib>
-
-    void yyerror(char const* message);
 %}
 
 %option noyywrap
