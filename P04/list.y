@@ -38,8 +38,8 @@ int main() {
         prompt();
         if (yyparse() == 0) {
             process_list();
-            parsed_list.clear();
         }
+        parsed_list.clear();
     }
 }
 
