@@ -10,4 +10,4 @@ sub callback {
 }
 
 # Iterate over all files in system, call "callback" for each one
-find(\&callback, '/');
+find(\&callback, "/");
