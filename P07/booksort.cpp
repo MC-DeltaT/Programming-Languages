@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <cstddef>
 #include <iostream>
 #include <random>
@@ -68,43 +67,50 @@ namespace impl {
 
 // Sorts `books` in place using quicksort.
 void sortBooks(std::vector<Book>& books) {
-    // Using std::ptrdiff_t for things because it's a bit easier than using unsigned.
+    // Using std::ptrdiff_t for things because it's a bit easier and safer than using unsigned.
     // Just assume we won't have > PTRDIFF_MAX elements in the vector.
     impl::sortBooks(books, 0, static_cast<std::ptrdiff_t>(books.size()) - 1);
 }
 
 
-
-int main()
-{
-    // Generate some books with random attributes.
-    constexpr std::size_t NUM_BOOKS = 100;
-    std::vector<Book> books;
-    books.reserve(NUM_BOOKS);
-
-    std::string const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    std::string const digits = "0123456789";
-    std::default_random_engine randEng{std::random_device{}()};
-    for (std::size_t i = 0; i < NUM_BOOKS; ++i) {
-        int const id = randEng() % 1000000;
-
-        std::size_t const nameLength = randEng() % 7 + 3;
-        std::string name(nameLength, '\0');
-        std::generate(name.begin(), name.end(), [&]() {
-            return alphabet[randEng() % alphabet.size()];
-        });
-
-        std::string isbn(13, '\0');
-        std::generate(isbn.begin(), isbn.end(), [&]() {
-            return digits[randEng() % digits.size()];
-        });
-
-        books.emplace_back(id, name, isbn);
-    }
-
+void doTest(std::string testName, std::vector<Book> books) {
+    std::cout << testName << std::endl;
     sortBooks(books);
-
     for (Book const& book : books) {
-        std::cout << book.GetBookName() << std::endl;
+        std::cout << "  " << book.GetBookName() << std::endl;
     }
+    std::cout << std::endl << std::endl;
+}
+
+
+int main() {
+    std::vector<Book> books1{
+        {1, "BarQux", "98693457"},
+        {2, "Effective Modern C++", "235096343"},
+        {0, "Foo", "0123456789"},
+        {3, "Harry Potter", "576098234"},
+        {4, "The Lord of the Rings", "004563896"}
+    };
+    doTest("In order", books1);
+
+    std::vector<Book> books2{
+        {4, "The Lord of the Rings", "004563896"},
+        {3, "Harry Potter", "576098234"},
+        {0, "Foo", "0123456789"},
+        {2, "Effective Modern C++", "235096343"},
+        {1, "BarQux", "98693457"}
+    };
+    doTest("Reverse order", books2);
+
+    std::vector<Book> books3{
+        {0, "Foo", "0123456789"},
+        {1, "BarQux", "98693457"},
+        {2, "Effective Modern C++", "235096343"},
+        {3, "Harry Potter", "576098234"},
+        {4, "The Lord of the Rings", "004563896"}
+    };
+    doTest("Random order", books3);
+
+    std::vector<Book> books4;
+    doTest("Empty array", books4);
 }
