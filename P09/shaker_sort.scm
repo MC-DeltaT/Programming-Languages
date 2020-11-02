@@ -4,7 +4,7 @@
     (let ((first (car l)) (second (cadr l)))
       (if (compare first second)
         (cons first (single_pass (cdr l) compare))
-	(cons second (single_pass (cons first (cddr l)) compare))
+        (cons second (single_pass (cons first (cddr l)) compare))
       )
     )
   )
